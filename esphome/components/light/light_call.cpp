@@ -345,7 +345,9 @@ LightColorValues LightCall::validate_() {
     if (this->has_effect_()) {
       log_invalid_parameter(name, LOG_STR("cannot start effect when turning off"));
       this->clear_flag_(FLAG_HAS_EFFECT);
-    } else if (this->parent_->active_effect_index_ != 0 && explicit_turn_off_request) {
+    } else if (this->parent_->active_effect_index_ != 0 
+        && explicit_turn_off_request 
+        && !this->parent_->get_restore_effect()) {
       // Auto turn off effect
       this->effect_ = 0;
       this->set_flag_(FLAG_HAS_EFFECT);

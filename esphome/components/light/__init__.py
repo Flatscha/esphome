@@ -29,6 +29,7 @@ from esphome.const import (
     CONF_OUTPUT_ID,
     CONF_POWER_SUPPLY,
     CONF_RED,
+    CONF_RESTORE_EFFECT,
     CONF_RESTORE_MODE,
     CONF_STATE,
     CONF_TRIGGER_ID,
@@ -145,6 +146,7 @@ ADDRESSABLE_LIGHT_SCHEMA = RGB_LIGHT_SCHEMA.extend(
             [cv.percentage], cv.Length(min=3, max=4)
         ),
         cv.Optional(CONF_POWER_SUPPLY): cv.use_id(power_supply.PowerSupply),
+        cv.Optional(CONF_RESTORE_EFFECT, default=False): cv.boolean,
     }
 )
 
@@ -229,6 +231,8 @@ async def setup_light_core_(light_var, output_var, config):
         )
         cg.add(light_var.set_initial_state(initial_state))
 
+    if (restore_effect := config.get(CONF_RESTORE_EFFECT)) is not None:
+        cg.add(light_var.set_restore_effect(restore_effect))
     if (
         default_transition_length := config.get(CONF_DEFAULT_TRANSITION_LENGTH)
     ) is not None:

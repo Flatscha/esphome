@@ -104,10 +104,12 @@ void LightState::dump_config() {
   }
 }
 void LightState::loop() {
-  // Apply effect (if any)
-  auto *effect = this->get_active_effect_();
-  if (effect != nullptr) {
-    effect->apply();
+  // Apply effect (if any) and light is on
+  if (this->current_values.is_on()) {
+    auto *effect = this->get_active_effect_();
+    if (effect != nullptr) {
+      effect->apply();
+    }
   }
 
   // Apply transformer (if any)
@@ -193,6 +195,7 @@ void LightState::set_flash_transition_length(uint32_t flash_transition_length) {
 }
 uint32_t LightState::get_flash_transition_length() const { return this->flash_transition_length_; }
 void LightState::set_gamma_correct(float gamma_correct) { this->gamma_correct_ = gamma_correct; }
+void LightState::set_restore_effect(bool restore_effect) { this->restore_effect_ = restore_effect; }
 void LightState::set_restore_mode(LightRestoreMode restore_mode) { this->restore_mode_ = restore_mode; }
 void LightState::set_initial_state(const LightStateRTCState &initial_state) { this->initial_state_ = initial_state; }
 bool LightState::supports_effects() { return !this->effects_.empty(); }

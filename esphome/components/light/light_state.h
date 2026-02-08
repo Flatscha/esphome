@@ -166,6 +166,10 @@ class LightState : public EntityBase, public Component {
   void set_gamma_correct(float gamma_correct);
   float get_gamma_correct() const { return this->gamma_correct_; }
 
+  /// Set whether to restore effect
+  void set_restore_effect(bool restore_effect);
+  bool get_restore_effect() const { return this->restore_effect_; }
+
   /// Set the restore mode of this light
   void set_restore_mode(LightRestoreMode restore_mode);
 
@@ -297,6 +301,8 @@ class LightState : public EntityBase, public Component {
   uint32_t flash_transition_length_{};
   /// Gamma correction factor for the light.
   float gamma_correct_{};
+  /// Whether the effect should be set to 0 when light stopped.
+  bool restore_effect_{};
   /// Whether the light value should be written in the next cycle.
   bool next_write_{true};
   // for effects, true if a transformer (transition) is active.
